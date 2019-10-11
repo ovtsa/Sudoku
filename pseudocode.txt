@@ -1,0 +1,12 @@
+My algorithm for solving Sudoku puzzles (maybe not the most efficient):
+
+look at empty cell
+if DNE, return true
+using nums 1-9 as possible values to fill, start low to high
+check for conflict with num x at location p
+if no conflict
+	assign x to p
+	recurse on location p+1
+	if success, return true
+	else, try the next number x+1 (or x+2 or whatever)
+	if no digit works, return false (unsolvable)
