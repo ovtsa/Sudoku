@@ -16,7 +16,7 @@ public class Matrix
 	// A 2d array to remember the given values that cannot be edited
 	private int[][] givenInformation;
 	// A setting for which style of sudoku board is preferred in viewing
-	private int style;
+	private MatrixStyle style;
 
 	/** 
 	 * Empty Matrix constructor
@@ -38,7 +38,7 @@ public class Matrix
 			}
 
 		// Default style
-		this.style = 0;
+		this.style = MatrixStyle.SIMPLE;
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class Matrix
 		
 		// Obligatory assignments
 		this.givenInformation = newGivenInformation;
-		this.style = 0;
+		this.style = MatrixStyle.SIMPLE;
 	}
 
 	/**
@@ -254,11 +254,8 @@ public class Matrix
 	 *
 	 * @param style - the new style chosen
 	 */
-	public void setStyle(int style) throws IllegalArgumentException
-	{
-		if (style > 1)
-			throw new IllegalArgumentException("Style must be 0 or 1 until more styles are implemented.");
-		
+	public void setStyle(MatrixStyle style)
+	{	
 		this.style = style;
 	}
 
@@ -276,17 +273,17 @@ public class Matrix
 		int[] barrierIndeces;
 		switch (style)
 		{	
-			// 0 is a simplified style. Much preferred
-			case 0:
+			// SIMPLE is a simplified style. Much preferred
+			case SIMPLE:
 				barrierIndeces = new int[] { 0, 4, 8, 12 };
 				textLineLength = 13;
 				break;
-			// 1 is a complicated style. Optional, but not recommended by me.
-			case 1:
+			// COMPLEX is a complicated style. Optional, but not recommended by me.
+			case COMPLEX:
 				barrierIndeces = new int[] { 0, 1, 3, 5, 7, 8, 10, 12, 14, 15, 17, 19, 21, 22 };
 				textLineLength = 23;
 				break;
-			// Default choice will be style 0.
+			// Default choice will be style SIMPLE.
 			default:
 				barrierIndeces = new int[] { 0, 4, 8, 12 };
 				textLineLength = 13;
