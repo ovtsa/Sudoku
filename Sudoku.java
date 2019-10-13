@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Sudoku
 {
 	/* DIMENSION represents the number of rows and columns
+	 * EMPTY represents the value used for "empty" cells
 	 * board represents the 9x9 Matrix we will use for our numbers
 	 * kb is a Scanner from System.in to allow user interaction
 	 * verbose allows users to see the steps involved in finding a solution
@@ -18,6 +19,7 @@ public class Sudoku
 	 * tried before finding the solution
 	 */
 	private static final int DIMENSION = 9;
+	private static final int EMPTY = -1;
 	private Matrix board;
 	private Scanner kb;
 	private boolean verbose;
@@ -38,6 +40,11 @@ public class Sudoku
 		this.stepsTaken = 0;
 	}
 
+	/**
+	 * The main method - for executing the Sudoku solver program.
+	 *
+	 * @param args - command line arguments (unnecessary)
+	 */
 	public static void main(String[] args)
 	{
 		// Initialize game
@@ -69,12 +76,10 @@ public class Sudoku
 
 		// this would mean all squares have been solved, so recursion ends
 		if (row == 9 && col == 0)
-		{
 			return true;
-		}
 
 		// Check if we're looking at an empty cell
-		if (board.getGivenInformation()[row][col] == -1)
+		if (board.getGivenInformation()[row][col] == EMPTY)
 		{
 			// If we are, try the lowest possible value and recurse
 			// succeeded - holds whether or not a final solution was found on the path followed
@@ -191,7 +196,7 @@ public class Sudoku
 			}
 			// this means no solution was found
 			// clear the current square
-			board.setAt(row, col, -1);
+			board.setAt(row, col, EMPTY);
 			return false;
 		}
 		else
@@ -216,9 +221,9 @@ public class Sudoku
 
 		// Clearing (setting to -1) all values in this immutable values array for now
 		// until user can define them himself/herself
-		for (int i = 0; i < DIMENSION; i++)
-			for (int j = 0; j < DIMENSION; j++)
-				givenInformation[i][j] = -1;
+		for (int rowIndex = 0; rowIndex < givenInformation.length; rowIndex++)
+			for (int colIndex = 0; colIndex < givenInformation[rowIndex].length; colIndex++)
+				givenInformation[rowIndex][colIndex] = EMPTY;
 
 		// createdMatrix and board are synonymous (will be corrected later)
 		Matrix createdMatrix = new Matrix(givenInformation);
@@ -227,7 +232,6 @@ public class Sudoku
 		this.board = createdMatrix;
 
 		// explaining to user
-		// -1 is NOT permitted yet (to be corrected later)
 		System.out.println("Input known information");
 		System.out.println("Format: row, column, new value");
 		System.out.println("Example: 6,3,8");
@@ -238,6 +242,7 @@ public class Sudoku
 		// boolean to break out of while loop when ready
 		boolean inputtingComplete = false;
 
+		// Should all be converted to regex eventually
 		// while loop lasts while user is still inputting information
 		while (!inputtingComplete)
 		{
@@ -255,22 +260,31 @@ public class Sudoku
 				System.out.println(createdMatrix);
 			
 			// if user gave valid input
-			else if (userResponse.length() == 5 && userResponse.charAt(1) == ',' && userResponse.charAt(3) == ',')
+			else if ((userResponse.length() == 5 || userResponse.length() == 6) && userResponse.charAt(1) == ',' && userResponse.charAt(3) == ',')
 			{
 				String[] nums = userResponse.split(",");
 				if (nums.length == 3)
 				{
 					
 					int[] userResponseNums = new int[3];
-					boolean outOfBounds = false;
-					for (int i = 0; i < 3; i++)
+					boolean invalid = false;
+					try
 					{
-						userResponseNums[i] = Integer.parseInt(nums[i]);
-						if (userResponseNums[i] < 1 || userResponseNums[i] > 9)
-							outOfBounds = true;
+						for (int i = 0; i < 3; i++)
+						{
+							userResponseNums[i] = Integer.parseInt(nums[i]);
+							if (userResponseNums[i] < EMPTY || userResponseNums[i] == 0 || userResponseNums[i] > DIMENSION)
+								invalid = true;
+						}
 					}
-					if (outOfBounds)
+					catch (NumberFormatException nfe)
+					{
+						invalid = true;
+					}
+
+					if (invalid)
 						System.out.println("Invalid input, please try again");
+
 					else
 					{
 						if (isAllowed(userResponseNums[0] - 1, userResponseNums[1] - 1, userResponseNums[2]))
@@ -316,7 +330,6 @@ public class Sudoku
 						validResponse = true;
 						break;
 					default:
-						System.out.println("Invalid response");
 						break;
 				}
 			}
@@ -347,7 +360,7 @@ public class Sudoku
 	{
 		// Need to be sure the function is not called with parameters that would try to access outside the board
 		// or plug in a value that isn't 1-9
-		if (row < 0 || col < 0 || val < 1 || row > 8 || col > 8 || val > 9)
+		if (row < 0 || col < 0 || (val < 1 && val != EMPTY) || row > 8 || col > 8 || val > 9)
 			throw new IllegalArgumentException("Illegal indeces or value passed in Sudoku.isAllowed(int,int,int)");
 
 		/* valIsLegal  - a variable to remember whether, to the current knowledge of the method, the value being
@@ -361,12 +374,15 @@ public class Sudoku
 		int[] colToCheck = board.getColAt(col);
 		int[] cellToCheck = board.getCellAt(row, col);
 
+		// If val == EMPTY (-1), it should always be legal
+		if (val == EMPTY)
+			return valIsLegal;
+
 		// Ensuring that the value passed is not in conflict with any already in its row, column, or cell
 		for (int i = 0; i < DIMENSION; i++)
-		{
 			if (rowToCheck[i] == val || colToCheck[i] == val || cellToCheck[i] == val)
 				valIsLegal = false;
-		}
+
 		return valIsLegal;
 	}
 }

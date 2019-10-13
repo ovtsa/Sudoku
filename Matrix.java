@@ -222,7 +222,7 @@ public class Matrix
 	 */
 	public void setGivenInformationAt(int row, int col, int val) throws IllegalArgumentException
 	{
-		if (row < 0 || col < 0 || val < 1 || row > 8 || col > 8 || val > 9)
+		if (row < 0 || col < 0 || (val < 1 && val != EMPTY) || row > 8 || col > 8 || val > 9)
 			throw new IllegalArgumentException("Invalid values passed to setGivenInformationAt(int,int,int)");
 
 		this.givenInformation[row][col] = val;

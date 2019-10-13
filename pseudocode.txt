@@ -1,4 +1,5 @@
-My algorithm for solving Sudoku puzzles (maybe not the most efficient):
+// My algorithm for solving Sudoku puzzles (maybe not the most efficient):
+// Recursive
 
 look at empty cell
 if DNE, return true
@@ -10,3 +11,4 @@ if no conflict
 	if success, return true
 	else, try the next number x+1 (or x+2 or whatever)
 	if no digit works, return false (unsolvable)
+
