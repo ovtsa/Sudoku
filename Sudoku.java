@@ -48,6 +48,7 @@ public class Sudoku
 		game.endGame();
 	}
 
+
 	/**
 	 * An unfortunately complex recursive method for solving the Sudoku puzzle.
 	 *
