@@ -1,3 +1,4 @@
+package Sudoku;
 
 /**
  * MatrixStyle enum - represents the two different ways to present a Matrix as a String.

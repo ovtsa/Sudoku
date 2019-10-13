@@ -1,3 +1,5 @@
+package Sudoku;
+
 // For user input
 import java.util.Scanner;
 

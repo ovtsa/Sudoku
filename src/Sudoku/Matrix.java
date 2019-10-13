@@ -1,3 +1,4 @@
+package Sudoku;
 
 /**
  * The Matrix class is a representation of a Sudoku grid.
