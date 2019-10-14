@@ -5,8 +5,8 @@ it will solve the puzzle, if it is possible, showing the number of steps taken t
 
 INSTALLATION
 
-You will need JRE (Java Runtime Environment). Simply download all the .class files, and in a terminal window,
-type "java Sudoku" without the quotation marks to run the program.
+You will need JRE (Java Runtime Environment). To run the program, technically all you need is all the .class
+files in "Sudoku/bin/". Download that directory, and from inside that directory, type "java Sudoku".
 
 MODIFICATION
 
@@ -22,4 +22,4 @@ you to input a command, this is the syntax:
 
 	print 			 	- I would like to see the current state of the puzzle
 
-	row,column,value 	- at the row and column specified, place value (row, column and value can be 1-9)
+	row,column,value 		- at the row and column specified, place value (row, column and value can be 1-9)
