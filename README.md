@@ -10,7 +10,9 @@ files in "Sudoku/bin/". Download that directory, and from inside that directory,
 
 MODIFICATION
 
-This is fully open-source, and any branches and modifications are appreciated.
+This is fully open source. To suggest a modification, create a branch yourself and in the commit message,
+explain what changes you made, and I will review them and merge to my master branch if it is clearly beneficial.
+You are also welcome to clone my project and expand upon it however you wish in your own repositories.
 
 HOW TO USE
 
